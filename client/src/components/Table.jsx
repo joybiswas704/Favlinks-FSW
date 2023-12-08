@@ -6,6 +6,7 @@ function TableHeader() {
                     <th>Name</th>
                     <th>URL</th>
                     <th>Remove</th>
+                    <th>Edit</th>
                </tr>
           </thead>
      );
@@ -29,6 +30,14 @@ const TableBody = (props) => {
                               className='btn btn-danger'
                          >
                               Delete
+                         </button>
+                    </td>
+                    <td>
+                         <button
+                              onClick={() => props.removeLink(row.id)}
+                              className='btn btn-warning'
+                         >
+                              Edit
                          </button>
                     </td>
                </tr>
