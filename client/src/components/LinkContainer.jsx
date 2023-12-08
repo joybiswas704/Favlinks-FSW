@@ -54,6 +54,24 @@ function LinkContainer() {
           }
      };
 
+     const handleEdit = async (id, favLink) => {
+          try {
+               const response = await fetch(
+                    `http://localhost:3000/api/links/${id}`,
+                    {
+                         method: 'PUT',
+                         headers: {
+                              'Content-Type': 'application/json',
+                         },
+                         body: JSON.stringify(favLink),
+                    }
+               );
+               getLinks();
+          } catch (error) {
+               console.error(error);
+          }
+     };
+
      const handleRemove = (index) => {
           deleteLink(index);
      };
@@ -66,7 +84,11 @@ function LinkContainer() {
           <div className='container'>
                <h1>My Favorite Link</h1>
                <p>Add a new link with a name and URL to the table! </p>
-               <Table linkData={favLinks} removeLink={handleRemove} />
+               <Table
+                    linkData={favLinks}
+                    removeLink={handleRemove}
+                    editLink={handleEdit}
+               />
                <h1>Add New</h1>
                <Form handleSubmit={handleSubmit} />
           </div>

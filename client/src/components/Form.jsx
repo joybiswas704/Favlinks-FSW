@@ -28,6 +28,7 @@ function Form({ handleSubmit }) {
                          name='linkName'
                          onChange={handleChangeName}
                          className='form-control'
+                         required
                     />
                </div>
 
@@ -43,6 +44,7 @@ function Form({ handleSubmit }) {
                          name='linkURL'
                          onChange={handleChangeURL}
                          className='form-control'
+                         required
                     />
                </div>
 
