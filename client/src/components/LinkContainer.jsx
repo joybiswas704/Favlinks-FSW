@@ -1,29 +1,65 @@
 import Table from './Table';
 import Form from './Form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function LinkContainer() {
      const [favLinks, setFavLinks] = useState([]);
-     const handleRemove = (index) => {
-          /*
-                TODO - Create logic for setting the state to filter array and remove favLink at index
-            */
 
-          setFavLinks(
-               favLinks.filter((favLink, i) => {
-                    if (i != index) {
-                         return favLink;
+     useEffect(() => {
+          getLinks();
+     }, []);
+
+     const getLinks = async () => {
+          try {
+               // make a request to our server to get the links
+               const response = await fetch('http://localhost:3000/api/links');
+               // convert the response to json
+               const data = await response.json();
+               setFavLinks(data);
+          } catch (error) {
+               console.error(error);
+          }
+     };
+
+     const deleteLink = async (id) => {
+          try {
+               console.log('delete clicked');
+               const response = await fetch(
+                    `http://localhost:3000/api/links/${id}`,
+                    {
+                         method: 'DELETE',
+                         headers: {
+                              'Content-Type': 'application/json',
+                         },
                     }
-               })
-          );
+               );
+               getLinks();
+          } catch (error) {
+               console.error(error);
+          }
+     };
+
+     const createLink = async (favLink) => {
+          try {
+               const response = await fetch(`http://localhost:3000/api/links`, {
+                    method: 'POST',
+                    headers: {
+                         'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(favLink),
+               });
+               getLinks();
+          } catch (error) {
+               console.error(error);
+          }
+     };
+
+     const handleRemove = (index) => {
+          deleteLink(index);
      };
 
      const handleSubmit = (favLink) => {
-          /*
-                TODO - Create logic to set state and add new favLink to favLinks array in state
-            */
-
-          setFavLinks([...favLinks, favLink]);
+          createLink(favLink);
      };
 
      return (

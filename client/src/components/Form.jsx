@@ -2,19 +2,19 @@ import { useState } from 'react';
 
 function Form({ handleSubmit }) {
      const [name, setName] = useState('');
-     const [URL, setURL] = useState('');
+     const [url, setUrl] = useState('');
 
      function handleChangeName(event) {
           setName(event.target.value);
      }
 
      function handleChangeURL(event) {
-          setURL(event.target.value);
+          setUrl(event.target.value);
      }
 
      function submitForm(event) {
           event.preventDefault();
-          handleSubmit({ name: name, URL: URL });
+          handleSubmit({ name: name, url: url });
      }
      return (
           <form className='row g-3 '>

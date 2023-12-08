@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const Pool = require('pg').Pool;
 const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -36,7 +37,8 @@ app.get('/api/links', (req, res) => {
 
 // Endpoint to add links
 app.post('/api/links', (req, res) => {
-     const { id, name, url } = req.body;
+     const id = Math.floor(Math.random() * (1000000 - 0 + 1)) + 0;
+     const { name, url } = req.body;
      pool.query(
           `INSERT INTO favlinks VALUES(${id}, '${name}', '${url}')`,
           (error, results) => {
@@ -64,6 +66,7 @@ app.put('/api/links/:id', (req, res) => {
 
 // Endpoint to delete a link
 app.delete('/api/links/:id', (req, res) => {
+     console.log(`invoked with id ${req.params.id} `);
      pool.query(
           `DELETE FROM favlinks WHERE id = ${req.params.id}`,
           (error, results) => {
