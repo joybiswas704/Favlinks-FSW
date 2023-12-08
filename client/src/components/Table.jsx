@@ -21,8 +21,22 @@ const TableBody = (props) => {
      const [show, setShow] = useState(false);
      const handleClose = () => setShow(false);
      const handleShow = () => setShow(true);
-     // boilerplate table body functional component
-     // we use Array.map to create table rows from LinkData passed via props
+     const [name, setName] = useState('');
+     const [url, setUrl] = useState('');
+
+     function handleChangeName(event) {
+          setName(event.target.value);
+     }
+
+     function handleChangeURL(event) {
+          setUrl(event.target.value);
+     }
+
+     function submitModal(id) {
+          handleClose();
+          props.editLink(id, { name: name, url: url });
+     }
+
      const rows = props.linkData.map((row, index) => {
           return (
                <>
@@ -66,24 +80,29 @@ const TableBody = (props) => {
                                                        controlId='exampleForm.ControlInput1'
                                                   >
                                                        <Form.Label>
-                                                            Email address
+                                                            Name
                                                        </Form.Label>
                                                        <Form.Control
-                                                            type='email'
-                                                            placeholder='name@example.com'
+                                                            type='input'
                                                             autoFocus
+                                                            onChange={
+                                                                 handleChangeName
+                                                            }
                                                        />
                                                   </Form.Group>
                                                   <Form.Group
                                                        className='mb-3'
-                                                       controlId='exampleForm.ControlTextarea1'
+                                                       controlId='exampleForm.ControlInput1'
                                                   >
                                                        <Form.Label>
-                                                            Example textarea
+                                                            URL
                                                        </Form.Label>
                                                        <Form.Control
-                                                            as='textarea'
+                                                            as='input'
                                                             rows={3}
+                                                            onChange={
+                                                                 handleChangeURL
+                                                            }
                                                        />
                                                   </Form.Group>
                                              </Form>
@@ -97,7 +116,9 @@ const TableBody = (props) => {
                                              </Button>
                                              <Button
                                                   variant='primary'
-                                                  onClick={handleClose}
+                                                  onClick={() =>
+                                                       submitModal(row.id)
+                                                  }
                                              >
                                                   Save Changes
                                              </Button>
